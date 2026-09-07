@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permintaan Maaf untuk Bestie Jelita</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lora:wght@400;500&family=Dancing+Script:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; height: 100%; overflow: hidden; }
+        body { font-family: 'Lora', Georgia, serif; background: linear-gradient(135deg, #fdf6e3 0%, #f5e6d3 50%, #fdf6e3 100%); color: #4a3728; line-height: 1.7; min-height: 100vh; }
+        .page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.8s ease, visibility 0.8s ease; padding: 20px; }
+        .page.active { opacity: 1; visibility: visible; }
+        .page.fade-out { opacity: 0; visibility: hidden; }
+        .page.fade-in { opacity: 1; visibility: visible; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .letter-container { max-width: 700px; width: 100%; background: linear-gradient(145deg, #fffbf5 0%, #f9f0e3 100%); padding: clamp(30px, 5vw, 50px); border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1), 0 0 0 1px rgba(212,165,116,0.3); animation: slideInUp 0.8s ease-out; max-height: 90vh; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #d4a574 #f9f0e3; }
+        @keyframes slideInUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+        .letter-title { font-family: 'Dancing Script', cursive; font-size: clamp(1.8rem, 4vw, 2.8rem); color: #8b6f47; text-align: center; margin-bottom: 30px; font-weight: 600; }
+        .letter-content { margin-bottom: 30px; }
+        .letter-content p { font-size: clamp(0.95rem, 2vw, 1.1rem); margin-bottom: 18px; text-align: justify; color: #5d4037; line-height: 1.8; text-indent: 2em; }
+        .letter-content p:first-child { text-indent: 0; font-style: italic; color: #8b6f47; }
+        .audio-controls { text-align: center; margin-bottom: 25px; padding: 15px; background: rgba(212,165,116,0.1); border-radius: 15px; border: 1px dashed #d4a574; }
+        .audio-btn { font-family: 'Lora', serif; font-size: 1rem; padding: 12px 30px; background: linear-gradient(135deg, #8b6f47 0%, #6d563a 100%); color: #fff; border: none; border-radius: 25px; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 3px 10px rgba(139,111,71,0.3); }
+        .audio-btn:hover { transform: translateY(-2px); }
+        .audio-btn.playing { background: linear-gradient(135deg, #c9563f 0%, #a34535 100%); animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { box-shadow: 0 3px 10px rgba(201,86,63,0.3); } 50% { box-shadow: 0 5px 20px rgba(201,86,63,0.5); } }
+        .audio-status { font-size: 0.85rem; color: #8b6f47; margin-top: 10px; min-height: 20px; }
+        .nav-button { font-family: 'Playfair Display', serif; font-size: clamp(1rem, 2.5vw, 1.2rem); padding: 14px 40px; background: linear-gradient(135deg, #d4a574 0%, #c9956a 100%); color: #fff; border: none; border-radius: 30px; cursor: pointer; transition: all 0.3s ease; display: block; margin: 0 auto; box-shadow: 0 4px 15px rgba(212,165,116,0.4); letter-spacing: 1px; }
+        .nav-button:hover { transform: translateY(-3px); }
+        .photo-container { text-align: center; max-width: 700px; width: 100%; animation: fadeInUp 0.8s ease-out; }
+        .photo-frame { margin-bottom: 35px; perspective: 1000px; }
+        .frame-outer { display: inline-block; padding: 8px; background: linear-gradient(145deg, #b8860b 0%, #daa520 15%, #ffd700 30%, #f4c430 45%, #daa520 60%, #b8860b 75%, #8b6914 100%); border-radius: 20px; box-shadow: 0 0 0 2px #8b6914, 0 0 0 4px #ffd700, 0 0 0 6px #b8860b, 0 0 0 8px #daa520, 0 0 0 10px #8b6914, 0 0 0 12px rgba(255,215,0,0.5), 0 15px 50px rgba(0,0,0,0.35), 0 5px 20px rgba(0,0,0,0.25), inset 0 2px 4px rgba(255,215,0,0.4), inset 0 -2px 4px rgba(139,105,20,0.4); position: relative; }
+        .frame-inner { padding: 6px; background: linear-gradient(135deg, #cd9b1d 0%, #e6c229 20%, #ffd700 40%, #ffec8b 50%, #ffd700 60%, #e6c229 80%, #cd9b1d 100%); border-radius: 14px; box-shadow: inset 0 2px 6px rgba(139,105,20,0.5), inset 0 -2px 6px rgba(255,215,0,0.3); position: relative; }
+        .frame-mat { padding: 12px 15px; background: linear-gradient(145deg, #faf5e8 0%, #f5edd8 50%, #efe5cc 100%); border-radius: 10px; box-shadow: inset 0 2px 8px rgba(139,105,20,0.15), inset 0 -1px 3px rgba(255,255,255,0.8); }
+        .frame-outer::before, .frame-outer::after { content: '❧'; position: absolute; font-size: 2rem; color: #8b6914; text-shadow: 1px 1px 2px rgba(255,215,0,0.5); z-index: 10; line-height: 1; }
+        .frame-outer::before { top: -5px; left: -5px; transform: rotate(-45deg); }
+        .frame-outer::after { top: -5px; right: -5px; transform: rotate(45deg); }
+        .frame-inner::before, .frame-inner::after { content: '❧'; position: absolute; font-size: 2rem; color: #8b6914; text-shadow: 1px 1px 2px rgba(255,215,0,0.5); z-index: 10; line-height: 1; }
+        .frame-inner::before { bottom: -5px; left: -5px; transform: rotate(45deg); }
+        .frame-inner::after { bottom: -5px; right: -5px; transform: rotate(-45deg); }
+        .frame-shine { position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 14px; overflow: hidden; pointer-events: none; z-index: 5; }
+        .frame-shine::before { content: ''; position: absolute; top: -100%; left: -100%; width: 300%; height: 300%; background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.4) 50%, transparent 70%); animation: frameShine 4s ease-in-out infinite; }
+        @keyframes frameShine { 0%, 100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); } 50% { transform: translateX(100%) translateY(100%) rotate(45deg); } }
+        .frame-mat img { display: block; max-width: 100%; max-height: 55vh; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); object-fit: contain; position: relative; z-index: 1; }
+        .frame-ribbon { display: flex; justify-content: center; margin-top: -5px; position: relative; z-index: 1; }
+        .frame-ribbon::before { content: ''; width: 60%; height: 3px; background: linear-gradient(90deg, transparent, #daa520, #ffd700, #daa520, transparent); border-radius: 2px; }
+        .frame-sparkles { position: absolute; top: -20px; left: -20px; right: -20px; bottom: -20px; pointer-events: none; z-index: 0; }
+        .frame-sparkles span { position: absolute; width: 6px; height: 6px; background: #ffd700; border-radius: 50%; animation: floatSparkle 3s ease-in-out infinite; box-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700; }
+        .frame-sparkles span:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+        .frame-sparkles span:nth-child(2) { top: 5%; right: 10%; animation-delay: 0.5s; }
+        .frame-sparkles span:nth-child(3) { bottom: 15%; left: 8%; animation-delay: 1s; }
+        .frame-sparkles span:nth-child(4) { bottom: 10%; right: 5%; animation-delay: 1.5s; }
+        .frame-sparkles span:nth-child(5) { top: 50%; left: -5%; animation-delay: 2s; }
+        .frame-sparkles span:nth-child(6) { top: 40%; right: -5%; animation-delay: 2.5s; }
+        @keyframes floatSparkle { 0%, 100% { transform: scale(0) translateY(0); opacity: 0; } 50% { transform: scale(1) translateY(-10px); opacity: 1; } }
+        .comeback-text { font-family: 'Playfair Display', serif; font-size: clamp(1.3rem, 3vw, 1.8rem); color: #5d4037; margin-bottom: 30px; font-style: italic; }
+        .choice-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .choice-btn { font-family: 'Lora', serif; font-size: clamp(0.95rem, 2vw, 1.1rem); padding: 14px 30px; border: none; border-radius: 30px; cursor: pointer; transition: all 0.3s ease; min-width: 160px; }
+        .choice-btn.left { background: linear-gradient(135deg, #a89279 0%, #8b7b65 100%); color: #fff; box-shadow: 0 4px 15px rgba(139,123,101,0.3); }
+        .choice-btn.left:hover { transform: translateY(-3px); }
+        .choice-btn.right { background: linear-gradient(135deg, #7cb342 0%, #558b2f 100%); color: #fff; box-shadow: 0 4px 15px rgba(85,139,47,0.3); }
+        .choice-btn.right:hover { transform: translateY(-3px); }
+        #time-message { margin-top: 25px; animation: fadeInUp 0.8s ease-out; }
+        .encouragement { font-family: 'Playfair Display', serif; font-size: clamp(1.1rem, 2.5vw, 1.4rem); color: #8b6f47; font-style: italic; padding: 20px; background: rgba(212,165,116,0.15); border-radius: 15px; border-left: 4px solid #d4a574; }
+        .hidden { display: none; }
+        @media (max-width: 768px) {
+            .letter-container { padding: 25px 20px; margin: 10px; max-height: 85vh; }
+            .letter-content p { text-indent: 1em; font-size: 0.95rem; }
+            .choice-buttons { flex-direction: column; gap: 15px; }
+            .choice-btn { width: 100%; }
+            .frame-outer { padding: 6px; }
+            .frame-inner { padding: 5px; }
+            .frame-mat { padding: 8px 10px; }
+            .frame-mat img { max-height: 45vh; }
+        }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; } }
+        button:focus { outline: 3px solid #d4a574; outline-offset: 3px; }
+    </style>
+</head>
+<body>
+    <section id="page-letter1" class="page active">
+        <div class="letter-container">
+            <h2 class="letter-title">to my Dear Eleven Dragons</h2>
+            <div class="audio-controls">
+                <button id="btn-puisi" class="audio-btn" title="Play/Pause Puisi">
+                    <span class="btn-icon">🎙️</span>
+                    <span class="btn-text">Play Puisi</span>
+                </button>
+                <div id="audio-status" class="audio-status"></div>
+            </div>
+            <div class="letter-content">
+                <p>Ohh jelita dan teman teman ku,</p>
+                <p>Maaf bila aku selalu datang seperti hujan yang lupa pada kala,</p>
+                <p>Maafkan aku selalu mengacau seperti tsunami menerpa kepercayaan.</p>
+                <p>Mungkin pada kalian sebuah ucapan "maaf" hanya hampasan angin karena terlalu sering terdengar pada diri ku, mengapa saya selalu mengucapkan itu?? Karena hanya itu yang hanya bisa lakukan</p>
+                <p>Maafkan diriku yang banyak kurang dan mematahkan kepercayaan kalian. Aku tahu, mungkin kata-kata ini tidak akan pernah mampu mengembalikan kepercayaan yang telah hancur. Sebab sebuah kepercayaan bukanlah kaca yang dapat kembali utuh hanya dengan meminta maaf</p>
+                <p>Aku tidak meminta kalian untuk langsung melupakan semuanya, apalagi memaksakan diri untuk kembali percaya kepadaku seperti sebelumnya. Tetapi aku ingin kalian tau kalau aku berusaha semampu lu untuk selalu cukup kepada kalian</p>
+                <p>Jika selama ini kehadiranku lebih sering membawa kekacauan daripada kebahagiaan dan ketenangan, aku benar-benar minta maaf. maaf candaku saat waktu melewati batas, sikapku pernah menyakiti, atau perkataanku pernah membuat kalian kecewa, aku menyesalinya. Dan aku bersumpah bahwa aku berusaha berubah...</p>
+            </div>
+            <button id="btn-to-photo" class="nav-button">next</button>
+        </div>
+    </section>
+
+    <section id="page-photo" class="page">
+        <div class="photo-container">
+            <div class="photo-frame">
+                <div class="frame-sparkles"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                <div class="frame-outer">
+                    <div class="frame-inner">
+                        <div class="frame-shine"></div>
+                        <div class="frame-mat">
+                            <img id="group-photo" src="https://res.cloudinary.com/gdazzryl/image/upload/v1788779845/IMG-20260907-WA0286_zhj75x.jpg" alt="Foto Bersama">
+                        </div>
+                    </div>
+                </div>
+                <div class="frame-ribbon"></div>
+            </div>
+            <p class="comeback-text">want comeback to the family??</p>
+            <div class="choice-buttons">
+                <button id="btn-time" class="choice-btn left">Gw butuh waktu</button>
+                <button id="btn-yes" class="choice-btn right">iyaaa mau</button>
+            </div>
+            <div id="time-message" class="hidden">
+                <p class="encouragement">its okeyyy :), semangat yaa sekali lagi lagi dan lagi gw minta maaf</p>
+            </div>
+        </div>
+    </section>
+
+    <audio id="audio-puisi" preload="auto"></audio>
+    <audio id="audio-bg" loop preload="auto"></audio>
+
+    <script>
+        const AUDIO_SOURCES = {
+            puisi: 'https://res.cloudinary.com/gdazzryl/video/upload/v1788778957/07-09-2026_16.31_y4dwe8.mp3',
+            background: 'https://res.cloudinary.com/gdazzryl/video/upload/v1788779059/Bimbang_Remastered_2024_1_r7ayxw.mp3'
+        };
+        const WHATSAPP_LINK = 'https://chat.whatsapp.com/E4ScYTLNnVXAtsllbv3Crr?s=cl&p=a&mlu=4';
+
+        const elements = {
+            pageLetter1: document.getElementById('page-letter1'),
+            pagePhoto: document.getElementById('page-photo'),
+            btnPuisi: document.getElementById('btn-puisi'),
+            btnToPhoto: document.getElementById('btn-to-photo'),
+            btnTime: document.getElementById('btn-time'),
+            btnYes: document.getElementById('btn-yes'),
+            audioPuisi: document.getElementById('audio-puisi'),
+            audioBg: document.getElementById('audio-bg'),
+            audioStatus: document.getElementById('audio-status'),
+            btnText: document.querySelector('.btn-text'),
+            groupPhoto: document.getElementById('group-photo'),
+            timeMessage: document.getElementById('time-message')
+        };
+
+        const state = { currentPage: 'letter1', isPuisiPlaying: false, bgMusicPlaying: false };
+
+        function navigateToPage(targetPage) {
+            const pageMap = { 'letter1': elements.pageLetter1, 'photo': elements.pagePhoto };
+            const currentPageEl = pageMap[state.currentPage];
+            const targetPageEl = pageMap[targetPage];
+            if (!targetPageEl || state.currentPage === targetPage) return;
+            currentPageEl.classList.add('fade-out');
+            setTimeout(() => {
+                currentPageEl.classList.remove('active', 'fade-out');
+                targetPageEl.classList.add('active', 'fade-in');
+                setTimeout(() => targetPageEl.classList.remove('fade-in'), 100);
+                state.currentPage = targetPage;
+            }, 500);
+        }
+
+        function initAudio() {
+            elements.audioBg.src = AUDIO_SOURCES.background;
+            elements.audioBg.volume = 0.3;
+            elements.audioBg.play().then(() => { state.bgMusicPlaying = true; }).catch(() => console.log('Autoplay blocked'));
+            elements.audioPuisi.src = AUDIO_SOURCES.puisi;
+            elements.audioPuisi.volume = 1.0;
+        }
+
+        function fadeVolume(audio, from, to, duration) {
+            const steps = 50, stepDuration = duration / steps, volumeChange = (to - from) / steps;
+            let currentStep = 0;
+            const fadeInterval = setInterval(() => {
+                if (currentStep < steps) { audio.volume = Math.max(0, Math.min(1, from + (volumeChange * currentStep))); currentStep++; }
+                else { audio.volume = to; clearInterval(fadeInterval); }
+            }, stepDuration);
+        }
+
+        function togglePuisi() {
+            if (state.isPuisiPlaying) {
+                elements.audioPuisi.pause();
+                state.isPuisiPlaying = false;
+                elements.btnPuisi.classList.remove('playing');
+                elements.btnText.textContent = 'Play Puisi';
+                elements.audioStatus.textContent = '';
+            } else {
+                elements.audioPuisi.currentTime = 0;
+                elements.audioPuisi.volume = 1.0;
+                elements.audioPuisi.play().catch(() => console.error('Puisi error'));
+                fadeVolume(elements.audioBg, elements.audioBg.volume, 0.3, 500);
+                if (!state.bgMusicPlaying) { elements.audioBg.currentTime = 0; elements.audioBg.play().catch(() => console.error('BG error')); state.bgMusicPlaying = true; }
+                state.isPuisiPlaying = true;
+                elements.btnPuisi.classList.add('playing');
+                elements.btnText.textContent = 'Pause Puisi';
+                elements.audioStatus.textContent = '🎵 Sedang memutar puisi...';
+            }
+        }
+
+        function handlePuisiEnd() {
+            state.isPuisiPlaying = false;
+            elements.btnPuisi.classList.remove('playing');
+            elements.btnText.textContent = 'Play Puisi';
+            elements.audioStatus.textContent = '✨ Puisi selesai. Musik latar masih berputar...';
+            fadeVolume(elements.audioBg, elements.audioBg.volume, 1.0, 1500);
+        }
+
+        function handlePhotoError() {
+            elements.groupPhoto.style.display = 'none';
+            const fallback = document.createElement('div');
+            fallback.style.cssText = 'min-height:250px;display:flex;align-items:center;justify-content:center;background:#f5e6d3;border-radius:10px;color:#8b6f47;font-size:1.2rem;';
+            fallback.innerHTML = '📸 Gagal memuat foto';
+            elements.groupPhoto.parentNode.appendChild(fallback);
+        }
+
+        function handleTimeButtonClick() {
+            elements.timeMessage.classList.remove('hidden');
+            elements.timeMessage.style.animation = 'none';
+            setTimeout(() => { elements.timeMessage.style.animation = 'fadeInUp 0.8s ease-out'; }, 10);
+        }
+
+        elements.btnPuisi.addEventListener('click', togglePuisi);
+        elements.audioPuisi.addEventListener('ended', handlePuisiEnd);
+        elements.btnToPhoto.addEventListener('click', () => navigateToPage('photo'));
+        elements.btnTime.addEventListener('click', handleTimeButtonClick);
+        elements.btnYes.addEventListener('click', () => window.open(WHATSAPP_LINK, '_blank', 'noopener,noreferrer'));
+        elements.groupPhoto.addEventListener('error', handlePhotoError);
+
+        initAudio();
+        elements.pageLetter1.classList.add('active');
+    </script>
+</body>
+</html>
